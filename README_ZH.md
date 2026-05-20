@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="frontend/public/logo.svg" width="80" height="80" alt="TG-SignPulse Logo">
-</p>
-
 <h1 align="center">TG-SignPulse</h1>
 
 <p align="center">
