@@ -1,241 +1,82 @@
 <p align="center">
-  <img src="docs/public/logo.svg" width="80" height="80" alt="TG-SignPulse Logo">
+  <img src="frontend/public/logo.svg" width="80" height="80" alt="TG-SignPulse Logo">
 </p>
 
 <h1 align="center">TG-SignPulse</h1>
 
-> [!CAUTION]
-> **⚠️ v2.0 Upgrade Notice:** Due to significant architectural changes (multi-account task support, etc.), this version is NOT fully backward-compatible with older data. Please **clear your `data/` directory and redeploy** before upgrading. Back up your data first if needed.
-
 <p align="center">
-  <strong>Telegram Multi-Account Automation Panel</strong><br>
-  Check-ins · Action Workflows · Keyword Monitoring · AI Verification
+  <strong>⚠️ This project is archived and no longer maintained ⚠️</strong>
 </p>
 
 <p align="center">
-  <a href="https://github.com/AkaSLs/tg-signpulse/releases"><img src="https://img.shields.io/badge/version-v2.0.1-blue" alt="Version"></a>
-  <a href="https://github.com/AkaSLs/tg-signpulse/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-BSD--3--Clause-green" alt="License"></a>
-  <img src="https://img.shields.io/badge/python-3.10--3.13-blue" alt="Python">
-  <img src="https://img.shields.io/badge/node-20+-green" alt="Node.js">
-  <a href="https://github.com/AkaSLs/tg-signpulse/pkgs/container/tg-signpulse"><img src="https://img.shields.io/badge/ghcr.io-available-purple" alt="GHCR"></a>
-</p>
-
-<p align="center">
-  <a href="README.md">中文说明</a> · <a href="docs/README.md">Documentation</a> · <a href="docs/guide/quick-start.md">Quick Start</a> · <a href="#changelog">Changelog</a>
+  <a href="README.md">中文说明</a>
 </p>
 
 ---
 
-## Overview
+## About
 
-TG-SignPulse is a Telegram automation panel. Manage multiple accounts, configure automated check-in tasks, and run them on fixed schedules or random time ranges — all from a web UI.
+TG-SignPulse is an **AI Vibe Coding learning project** created to explore and practice the integration of the following technology stacks:
 
-> 🤖 AI-powered: Integrated with OpenAI-compatible APIs for image recognition, math challenges, OCR, and more.
+- Frontend/backend separation architecture (Vue 3 + FastAPI)
+- Modern Python async programming patterns
+- AI/LLM API integration (OpenAI-compatible interface calls)
+- Task scheduling system design (APScheduler)
+- Web authentication (JWT + TOTP 2FA)
+
+This project was built as a hands-on exercise during the author's exploration of AI-assisted programming (Vibe Coding). It demonstrates how AI coding tools can be applied in a full-stack project. The codebase was primarily generated with AI assistance, serving as a showcase of AI-driven development workflows.
 
 ---
 
-## Features
+## Project Status
 
-| Area | Capability |
-|------|-----------|
-| **Account Management** | Multi-account login (SMS/QR), proxy, status checks, re-login |
-| **Task Workflows** | Fixed / random-range / listen-trigger execution modes |
-| **Action Types** | Send text, click button, send dice, AI vision, AI calculate, keyword monitor |
-| **Topic Support** | Send and filter by Telegram group Thread ID |
-| **Keyword Monitoring** | Contains/exact/regex match → Telegram Bot, forward, Bark, custom URL, continue actions |
-| **Notifications** | Task failure, invalid session, login, keyword match alerts |
-| **Operations** | Docker deploy, persistent data, health checks, config import/export |
+> 🚫 **This project is discontinued and will not receive further updates.**
+>
+> - No pre-built images or distributions of any kind are provided
+> - No new Issues or Pull Requests will be accepted
+> - The code is available solely for technical learning reference
 
 ---
 
 ## Tech Stack
 
-```
-┌─────────────────────────────────────────────────────────┐
-│  Frontend          Vue 3 + Vue Router + Pinia           │
-│                    Tailwind CSS 4 + Lucide Icons         │
-│                    Vite + PWA                            │
-├─────────────────────────────────────────────────────────┤
-│  Backend           FastAPI + Uvicorn                     │
-│                    SQLAlchemy + SQLite (WAL)             │
-│                    APScheduler (AsyncIO)                 │
-│                    JWT + TOTP 2FA + bcrypt               │
-├─────────────────────────────────────────────────────────┤
-│  Telegram Engine   Pyrogram / Kurigram                   │
-│                    Session File / String dual mode       │
-├─────────────────────────────────────────────────────────┤
-│  AI Integration    OpenAI SDK (compatible APIs)          │
-│                    Vision / OCR / Math / Inference       │
-├─────────────────────────────────────────────────────────┤
-│  Infrastructure    Docker Multi-stage Build              │
-│                    GitHub Actions CI/CD                   │
-│                    GHCR Container Registry               │
-└─────────────────────────────────────────────────────────┘
-```
+Technologies used in this project, for learning reference:
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Vue 3, Vue Router, Pinia, Tailwind CSS 4, Vite |
+| Backend | FastAPI, Uvicorn, SQLAlchemy, SQLite, APScheduler |
+| Auth | JWT, TOTP 2FA, bcrypt |
+| AI Integration | OpenAI SDK (API call examples) |
+| Third-party API | Pyrogram (Telegram MTProto protocol study) |
 
 ---
 
-## Quick Start
+## Learning Highlights
 
-### Prerequisites
+This project can serve as a reference for:
 
-- Docker 24+ with Docker Compose
-- At least one Telegram account
-
-### One-command Deploy
-
-```bash
-docker run -d \
-  --name tg-signpulse \
-  --restart unless-stopped \
-  -p 8080:8080 \
-  -v $(pwd)/data:/data \
-  -e TZ=Asia/Shanghai \
-  -e APP_SECRET_KEY=$(openssl rand -base64 32) \
-  -e ADMIN_PASSWORD=your_strong_password \
-  ghcr.io/akasls/tg-signpulse:latest
-```
-
-### Docker Compose
-
-```yaml
-services:
-  app:
-    image: ghcr.io/akasls/tg-signpulse:latest
-    container_name: tg-signpulse
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./data:/data
-    environment:
-      - TZ=Asia/Shanghai
-      - APP_SECRET_KEY=your_secret_key
-      - ADMIN_PASSWORD=your_strong_password
-```
-
-```bash
-docker compose up -d
-```
-
-### Login
-
-Open `http://YOUR_SERVER_IP:8080`
-
-- Username: `admin`
-- Password: your `ADMIN_PASSWORD` (or check `data/.admin_bootstrap_password` if not set)
+1. **Full-stack project structure** — Organizing a frontend/backend separated application
+2. **Async Python** — Practical use of FastAPI + asyncio
+3. **Task scheduling** — Integrating APScheduler in a web application
+4. **AI API calls** — Wrapping and using OpenAI-compatible interfaces
+5. **Authentication system** — Implementing JWT + 2FA
+6. **State management** — Using Pinia with Vue 3
 
 ---
 
-## Project Structure
+## Disclaimer
 
-```text
-TG-SignPulse/
-├── backend/            # FastAPI backend
-│   ├── api/            #   API routes
-│   ├── core/           #   Config, auth, database
-│   ├── models/         #   SQLAlchemy models
-│   ├── services/       #   Business logic
-│   ├── scheduler/      #   APScheduler
-│   └── utils/          #   Utilities
-├── tg_signer/          # Telegram automation engine
-│   ├── core.py         #   Sign-in execution core
-│   ├── config.py       #   Task config models (V1→V2→V3)
-│   └── ai_tools.py     #   AI tool integration
-├── frontend/           # Vue 3 frontend
-├── docker/             # Docker entrypoint
-├── docs/               # Documentation (VitePress)
-├── Dockerfile          # Multi-stage build
-├── docker-compose.yml  # Compose orchestration
-└── pyproject.toml      # Python project config
-```
-
----
-
-## Documentation
-
-Full documentation at [docs/README.md](docs/README.md):
-
-- [Quick Start](docs/guide/quick-start.md) — Deploy and create your first task in 5 minutes
-- [Docker Deployment](docs/deploy/docker.md) — Images, Compose, reverse proxy, upgrades
-- [Configuration Reference](docs/reference/configuration.md) — Env vars, data directory, config files
-- [Account Management](docs/guide/accounts.md) — Login methods, proxy, session modes
-- [Task Workflows](docs/guide/tasks.md) — Action types, execution modes, multi-account sharing
-- [AI Actions](docs/guide/ai.md) — OpenAI config and custom prompts
-- [Keyword Monitoring](docs/guide/keyword-monitor.md) — Match rules, push channels, continue actions
-- [Architecture](docs/reference/architecture.md) — System design and data flow
-
----
-
-## Environment Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `APP_SECRET_KEY` | JWT secret (required in production) | Auto-generated |
-| `ADMIN_PASSWORD` | Initial admin password | Random |
-| `APP_DATA_DIR` | Data directory | `/data` |
-| `TZ` | Timezone | `Asia/Shanghai` |
-| `TG_SESSION_MODE` | Session mode `file`/`string` | `file` |
-| `TG_GLOBAL_CONCURRENCY` | Global concurrency limit | `1` |
-| `TG_PROXY` | Global Telegram proxy | None |
-
-See [Configuration Reference](docs/reference/configuration.md) for the full list.
-
----
-
-## Local Development
-
-```bash
-# Backend
-python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -e ".[dev]"
-uvicorn backend.main:app --reload --port 8080
-
-# Frontend
-cd frontend
-npm ci
-npm run dev
-```
-
-- Python 3.10–3.13 (3.12 recommended)
-- Node.js 20+
-- Python 3.14+ is not recommended (Telegram runtime deps not yet compatible)
-
----
-
-## Health Checks
-
-```bash
-curl http://127.0.0.1:8080/healthz   # Quick health check
-curl http://127.0.0.1:8080/readyz    # Readiness check
-```
-
----
-
-## Changelog
-
-### v2.0.0 (2026-05-15)
-
-**Versioned releases**: Starting from this version, the project uses semantic versioning.
-
-**Code Quality**
-- Replaced all DEBUG print statements with structured logging
-- Fixed garbled error messages in `accounts.py`
-- Fixed SPA fallback incorrectly redirecting to dev server in production
-- Docker Compose: removed deprecated `version` field, added tmpfs mounts
-- Moved `vite-plugin-pwa` to devDependencies
-
-**Documentation**
-- Rewrote README with tech stack overview and project structure
-- Updated docs with deployment guide and configuration reference
-- Fixed default password documentation inconsistency
+- This project is intended solely for AI programming technique learning and exchange; it does not encourage or support any form of automation abuse
+- The author is not responsible for any consequences arising from the use of this code
+- No technical support or deployment services are provided
+- Third-party API calls in the code are included only as technical examples; users must comply with the relevant terms of service on their own
 
 ---
 
 ## Acknowledgements
 
-Based on [tg-signer](https://github.com/amchii/tg-signer) by [amchii](https://github.com/amchii), heavily refactored and extended.
+The Telegram protocol interaction portion of this project references [tg-signer](https://github.com/amchii/tg-signer) by [amchii](https://github.com/amchii).
 
 ---
 

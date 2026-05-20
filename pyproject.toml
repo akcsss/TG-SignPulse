@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tg-signer"
 dynamic = ["version"]
-description = "Automated Telegram tasks (check-ins, sending messages, keyboard clicks, AI replies, etc.); monitoring, forwarding, and auto-replying to private, group, and channel messages."
+description = "AI Vibe Coding learning project - full-stack tech demo (Vue 3 + FastAPI + APScheduler + OpenAI SDK). Archived, no longer maintained."
 authors = [
     { name = "Amchii", email = "finethankuandyou@gmail.com" }
 ]
